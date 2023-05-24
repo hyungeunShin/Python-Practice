@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+table {
+	text-align: center;
+	border-collapse: collapse;
+}
+</style>
+</head>
+<body>
+	<form action="emp_mod_act" method="post" name="frm">
+		<table border="1">
+			<tr>
+				<th>사번</th>
+				<th><input type="text" name="e_id" value="{{emp.e_id}}"></th>
+			</tr>
+			<tr>
+				<th>이름</th>
+				<th><input type="text" name="e_name" value="{{emp.e_name}}"></th>
+			</tr>
+			<tr>
+				<th>성별</th>
+				<th><input type="text" name="sex" value="{{emp.sex}}"></th>
+			</tr>
+			<tr>
+				<th>주소</th>
+				<th><input type="text" name="addr" value="{{emp.addr}}"></th>
+			</tr>
+			<tr>
+				<td colspan="2"><button onclick="fn_mod_act()">실행</button></td>
+			</tr>
+		</table>
+	</form>
+	
+	<script type="text/javascript">
+	function fn_mod_act() {
+		document.frm.submit();
+	}
+	</script>
+</body>
+</html>

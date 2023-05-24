@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<form action="mem_add_act" method="post" name="frm">
+		<table>
+			<tr>
+				<th>사번</th>
+				<td><input type="text" name="m_id"></td>
+			</tr>
+			<tr>
+				<th>이름</th>
+				<td><input type="text" name="m_name"></td>
+			</tr>
+			<tr>
+				<th>성별</th>
+				<td><input type="text" name="tel"></td>
+			</tr>
+			<tr>
+				<th>주소</th>
+				<td><input type="text" name="address"></td>
+			</tr>
+			<tr>
+				<td colspan="2"><button onclick="fn_add_act()">실행</button></td>
+			</tr>
+		</table>
+	</form>
+	
+	<script type="text/javascript">
+	function fn_add_act() {
+		document.frm.submit();
+	}
+	</script>
+</body>
+</html>
