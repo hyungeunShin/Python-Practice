@@ -1,0 +1,6 @@
+# i는 item의 i
+
+arr = [1,2,3]
+
+for i in arr:
+    print(i)
