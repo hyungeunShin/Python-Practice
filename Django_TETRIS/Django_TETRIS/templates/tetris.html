@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+.tile {
+    width: 20px;
+    height: 20px;
+}
+</style>
+
+
+<script type="text/javascript">
+class Block {
+	constructor() {
+		this.type = 7;
+		this.status = 0;
+		this.i = 2;
+		this.j = 4;
+	}
+}
+
+let flagGameOver = false;
+let b = new Block();
+let block2D = [
+	[0,0,0,0,0, 0,0,0,0,0],
+	[0,0,0,0,0, 0,0,0,0,0],
+	[0,0,0,0,0, 0,0,0,0,0],
+	[0,0,0,0,0, 0,0,0,0,0],
+	[0,0,0,0,0, 0,0,0,0,0],
+	
+	[0,0,0,0,0, 0,0,0,0,0],
+	[0,0,0,0,0, 0,0,0,0,0],
+	[0,0,0,0,0, 0,0,0,0,0],
+	[0,0,0,0,0, 0,0,0,0,0],
+	[0,0,0,0,0, 0,0,0,0,0],
+	
+	[0,0,0,0,0, 0,0,0,0,0],
+	[0,0,0,0,0, 0,0,0,0,0],
+	[0,0,0,0,0, 0,0,0,0,0],
+	[0,0,0,0,0, 0,0,0,0,0],
+	[0,0,0,0,0, 0,0,0,0,0],
+	
+	[0,0,0,0,0, 0,0,0,0,0],
+	[0,0,0,0,0, 0,0,0,0,0],
+	[0,0,0,0,0, 0,0,0,0,0],
+	[0,0,0,0,0, 0,0,0,0,0],
+	[0,0,0,0,0, 0,0,0,0,0],
+	
+	[0,0,0,0,0, 0,0,0,0,0],
+	[0,0,0,0,0, 0,0,0,0,0],
+	[0,0,0,0,0, 0,0,0,0,0],
+	[0,0,0,0,0, 0,0,0,0,0],
+	[0,0,0,0,0, 0,0,0,0,0]
+];
+
+let stack2D = [
+	[0,0,0,0,0, 0,0,0,0,0],
+	[0,0,0,0,0, 0,0,0,0,0],
+	[0,0,0,0,0, 0,0,0,0,0],
+	[0,0,0,0,0, 0,0,0,0,0],
+	[0,0,0,0,0, 0,0,0,0,0],
+	
+	[0,0,0,0,0, 0,0,0,0,0],
+	[0,0,0,0,0, 0,0,0,0,0],
+	[0,0,0,0,0, 0,0,0,0,0],
+	[0,0,0,0,0, 0,0,0,0,0],
+	[0,0,0,0,0, 0,0,0,0,0],
+	
+	[0,0,0,0,0, 0,0,0,0,0],
+	[0,0,0,0,0, 0,0,0,0,0],
+	[0,0,0,0,0, 0,0,0,0,0],
+	[0,0,0,0,0, 0,0,0,0,0],
+	[0,0,0,0,0, 0,0,0,0,0],
+	
+	[0,0,0,0,0, 0,0,0,0,0],
+	[0,0,0,0,0, 0,0,0,0,0],
+	[0,0,0,0,0, 0,0,0,0,0],
+	[0,0,0,0,0, 0,0,0,0,0],
+	[0,0,0,0,0, 0,0,0,0,0],
+	
+	[0,0,0,0,0, 0,0,0,0,0],
+	[0,0,0,0,0, 0,0,0,0,0],
+	[0,0,0,0,0, 0,0,0,0,0],
+	[0,0,0,0,0, 0,0,0,0,0],
+	[0,0,0,0,0, 0,0,0,0,0]
+];
+
+let display2D = [
+    [0,0,0,0,0, 0,0,0,0,0],
+    [0,0,0,0,0, 0,0,0,0,0],
+    [0,0,0,0,0, 0,0,0,0,0],
+    [0,0,0,0,0, 0,0,0,0,0],
+    [0,0,0,0,0, 0,0,0,0,0],
+    
+    [0,0,0,0,0, 0,0,0,0,0],
+    [0,0,0,0,0, 0,0,0,0,0],
+    [0,0,0,0,0, 0,0,0,0,0],
+    [0,0,0,0,0, 0,0,0,0,0],
+    [0,0,0,0,0, 0,0,0,0,0],
+    
+    [0,0,0,0,0, 0,0,0,0,0],
+    [0,0,0,0,0, 0,0,0,0,0],
+    [0,0,0,0,0, 0,0,0,0,0],
+    [0,0,0,0,0, 0,0,0,0,0],
+    [0,0,0,0,0, 0,0,0,0,0],
+    
+    [0,0,0,0,0, 0,0,0,0,0],
+    [0,0,0,0,0, 0,0,0,0,0],
+    [0,0,0,0,0, 0,0,0,0,0],
+    [0,0,0,0,0, 0,0,0,0,0],
+    [0,0,0,0,0, 0,0,0,0,0],
+    
+    [0,0,0,0,0, 0,0,0,0,0],
+    [0,0,0,0,0, 0,0,0,0,0],
+    [0,0,0,0,0, 0,0,0,0,0],
+    [0,0,0,0,0, 0,0,0,0,0],
+    [0,0,0,0,0, 0,0,0,0,0]
+];
+
+function setBlock2D() {
+	for(let i = 0; i < 25; i++) {
+        for(let j = 0; j < 10; j++) {
+            block2D[i][j] = 0;
+        }
+    }
+	
+	if(b.type == 1) {
+		block2D[b.i][b.j]      = b.type;
+		block2D[b.i][b.j+1]    = b.type;
+		block2D[b.i+1][b.j]    = b.type;
+		block2D[b.i+1][b.j+1]  = b.type;
+	}
+	
+	if(b.type == 2) {
+		if(b.status == 0) {
+            block2D[b.i]    [b.j]   = b.type;
+            block2D[b.i-1]  [b.j]   = b.type;
+            block2D[b.i-2]  [b.j]   = b.type;
+            block2D[b.i+1]  [b.j]   = b.type;           
+        } else if(b.status == 1) {
+            block2D[b.i]    [b.j]   = b.type;
+            block2D[b.i]    [b.j-1] = b.type;
+            block2D[b.i]    [b.j-2] = b.type;
+            block2D[b.i]    [b.j+1] = b.type;
+        }
+	}
+	
+	if(b.type == 3) {
+        if(b.status == 0) {
+            block2D[b.i]    [b.j]   = b.type;
+            block2D[b.i+1]  [b.j]   = b.type;
+            block2D[b.i]    [b.j+1] = b.type;
+            block2D[b.i-1]  [b.j+1] = b.type;
+        } else if(b.status == 1) {
+            block2D[b.i]    [b.j]   = b.type;
+            block2D[b.i-1]  [b.j]   = b.type;
+            block2D[b.i-1]  [b.j-1] = b.type;
+            block2D[b.i]    [b.j+1] = b.type;
+        }
+    }
+	
+	if(b.type == 4) {
+        if(b.status == 0) {
+            block2D[b.i]    [b.j]   = b.type;
+            block2D[b.i-1]  [b.j]   = b.type;
+            block2D[b.i]    [b.j+1] = b.type;
+            block2D[b.i+1]  [b.j+1] = b.type;
+        } else if(b.status == 1) {
+            block2D[b.i]    [b.j]   = b.type;
+            block2D[b.i]    [b.j-1] = b.type;
+            block2D[b.i-1]  [b.j]   = b.type;
+            block2D[b.i-1]  [b.j+1] = b.type;
+        }
+    }
+	
+	if(b.type == 5) {
+        if(b.status == 0) {
+            block2D[b.i]    [b.j]   = b.type;
+            block2D[b.i]    [b.j-1] = b.type;
+            block2D[b.i]    [b.j+1] = b.type;
+            block2D[b.i-1]  [b.j+1] = b.type;
+        } else if(b.status == 1) {
+            block2D[b.i]    [b.j]   = b.type;
+            block2D[b.i-1]  [b.j]   = b.type;
+            block2D[b.i+1]  [b.j]   = b.type;
+            block2D[b.i+1]  [b.j+1] = b.type;
+        } else if(b.status == 2) {
+            block2D[b.i]    [b.j]   = b.type;
+            block2D[b.i]    [b.j-1] = b.type;
+            block2D[b.i]    [b.j+1] = b.type;
+            block2D[b.i+1]  [b.j-1] = b.type;
+        } else if(b.status == 3) {
+            block2D[b.i]    [b.j]   = b.type;
+            block2D[b.i-1]  [b.j]   = b.type;
+            block2D[b.i-1]  [b.j-1] = b.type;
+            block2D[b.i+1]  [b.j]   = b.type;
+        }
+    }
+	
+	if(b.type == 6) {
+        if(b.status == 0) {
+            block2D[b.i]    [b.j]   = b.type;
+            block2D[b.i]    [b.j+1] = b.type;
+            block2D[b.i]    [b.j-1] = b.type;
+            block2D[b.i-1]  [b.j-1] = b.type;
+        } else if(b.status == 1) {
+            block2D[b.i]    [b.j]   = b.type;
+            block2D[b.i-1]  [b.j]   = b.type;
+            block2D[b.i-1]  [b.j+1] = b.type;
+            block2D[b.i+1]  [b.j]   = b.type;
+        } else if(b.status == 2) {
+            block2D[b.i]    [b.j]   = b.type;
+            block2D[b.i]    [b.j-1] = b.type;
+            block2D[b.i]    [b.j+1] = b.type;
+            block2D[b.i+1]  [b.j+1] = b.type;
+        } else if(b.status == 3) {
+            block2D[b.i]    [b.j]   = b.type;
+            block2D[b.i-1]  [b.j]   = b.type;
+            block2D[b.i+1]  [b.j]   = b.type;
+            block2D[b.i+1]  [b.j-1] = b.type;
+        }
+    }
+	
+	if(b.type == 7) {
+        if(b.status == 0) {
+            block2D[b.i]    [b.j]   = b.type;
+            block2D[b.i]    [b.j-1] = b.type;
+            block2D[b.i]    [b.j+1] = b.type;
+            block2D[b.i-1]  [b.j]   = b.type;
+        } else if(b.status == 1) {
+            block2D[b.i]    [b.j]   = b.type;
+            block2D[b.i-1]  [b.j]   = b.type;
+            block2D[b.i+1]  [b.j]   = b.type;
+            block2D[b.i]    [b.j+1] = b.type;
+        } else if(b.status == 2) {
+            block2D[b.i]    [b.j]   = b.type;
+            block2D[b.i]    [b.j-1] = b.type;
+            block2D[b.i]    [b.j+1] = b.type;
+            block2D[b.i+1]  [b.j]   = b.type;
+        } else if(b.status == 3) {
+            block2D[b.i]    [b.j]   = b.type;
+            block2D[b.i-1]  [b.j]   = b.type;
+            block2D[b.i+1]  [b.j]   = b.type;
+            block2D[b.i]    [b.j-1] = b.type;
+        }
+    }
+}
+
+function my_render() {
+    let tiles = document.getElementsByClassName('tile');
+    
+    for(let i = 0; i < 25; i++) {
+        for(let j = 0; j < 10; j++) {
+            if(display2D[i][j] == 0) {
+            	tiles[i*10+j].style.backgroundColor = "white";  
+            }
+            if(display2D[i][j] == 1) {
+            	tiles[i*10+j].style.backgroundColor = "#FF0000";  
+            }
+            if(display2D[i][j] == 2) {
+            	tiles[i*10+j].style.backgroundColor = "#FF9400";  
+            }
+            if(display2D[i][j] == 3) {
+            	tiles[i*10+j].style.backgroundColor = "#FFFA00";  
+            }
+            if(display2D[i][j] == 4) {
+            	tiles[i*10+j].style.backgroundColor = "#10FC00";  
+            }
+            if(display2D[i][j] == 5) {
+            	tiles[i*10+j].style.backgroundColor = "#0000FF";  
+            }
+            if(display2D[i][j] == 6) {
+            	tiles[i*10+j].style.backgroundColor = "#1000FC";  
+            }
+            if(display2D[i][j] == 7) {
+            	tiles[i*10+j].style.backgroundColor = "#7F00FF";  
+            }
+            if(display2D[i][j] == 11) {
+            	tiles[i*10+j].style.backgroundColor = "#ED2300";  
+            }
+            if(display2D[i][j] == 12) {
+            	tiles[i*10+j].style.backgroundColor = "#EAA400";  
+            }
+            if(display2D[i][j] == 13) {
+            	tiles[i*10+j].style.backgroundColor = "#F4F400";  
+            }
+            if(display2D[i][j] == 14) {
+            	tiles[i*10+j].style.backgroundColor = "#00F424";  
+            }
+            if(display2D[i][j] == 15) {
+            	tiles[i*10+j].style.backgroundColor = "#00DBEF";  
+            }
+            if(display2D[i][j] == 16) {
+            	tiles[i*10+j].style.backgroundColor = "#0033FF";  
+            }
+            if(display2D[i][j] == 17) {
+            	tiles[i*10+j].style.backgroundColor = "#B600FF";  
+            }
+        }
+    }	
+}
+
+function rotate() {
+	if(b.type == 1) {
+		
+	} else if(b.type == 2 || b.type == 3 || b.type == 4) {
+		if(b.status == 0) {
+			b.status = 1;
+		} else if(b.status == 1) {
+			b.status = 0;
+		}
+	} else if(b.type == 5 || b.type == 6 || b.type == 7) {
+		if(b.status == 0) {
+            b.status = 1;
+        } else if(b.status == 1) {
+            b.status = 2;
+        } else if(b.status == 2) {
+            b.status = 3;
+        } else if(b.status == 3) {
+            b.status = 0;
+        }
+	}
+}
+
+function setDisplay2D() {
+	for(let i = 0; i < 25; i++) {
+        for(let j = 0; j < 10; j++) {
+            display2D[i][j] = 0;
+        }
+    }
+	
+	for(let i = 0; i < 25; i++) {
+		for(let j = 0; j < 10; j++) {
+			if(block2D[i][j] > 0) {
+				display2D[i][j] = block2D[i][j]; 
+			}
+			
+			if(stack2D[i][j] > 0) {
+				display2D[i][j] = stack2D[i][j];
+			}
+		}
+	}
+}
+
+function isBlockStack() {
+	for(let i = 0; i < 25; i++) {
+        for(let j = 0; j < 10; j++) {
+            if(block2D[i][j] > 0 && stack2D[i][j] > 0) {
+            	return true;
+            }
+        }
+    }
+	
+	return false;
+}
+
+function isBlockSide() {
+	let cnt = 0;
+	
+	for(let i = 0; i < 25; i++) {
+        for(let j = 0; j < 10; j++) {
+            if(block2D[i][j] > 0) {
+            	cnt++;
+            }
+        }
+    }
+    
+    if(cnt < 4) {
+    	return true;
+    } else {
+    	return false;
+    }
+}
+
+function moveBlock2DToStack2D() {
+	for(let i = 0; i < 25; i++) {
+        for(let j = 0; j < 10; j++) {
+            if(block2D[i][j] > 0) {
+            	stack2D[i][j] = block2D[i][j]+10; 
+            }
+        }
+    }
+}
+
+function getMax10(){
+    let cnt = 0;
+    for(let i = 0; i < stack2D.length; i++){
+        let l = stack2D[i];
+        if(l[0] > 0 && l[1] > 0 && l[2] > 0 && l[3] > 0 && l[4] > 0 && 
+           l[5] > 0 && l[6] > 0 && l[7] > 0 && l[8] > 0 && l[9] > 0) {
+            cnt++;
+        }
+    }
+    
+    return cnt;
+}
+
+function cleanStack(cnt) {
+	let s = [];
+	
+	for(let i = 0; i < cnt; i++) {
+	    s.push([0,0,0,0,0, 0,0,0,0,0]+"");
+	}
+	
+	for(let i = 0; i < stack2D.length; i++){
+        let l = stack2D[i];
+        if(!(l[0] > 0 && l[1] > 0 && l[2] > 0 && l[3] > 0 && l[4] > 0 && 
+             l[5] > 0 && l[6] > 0 && l[7] > 0 && l[8] > 0 && l[9] > 0)) {
+            s.push(l+"");
+        }
+    }
+    
+	//stack2D = s;
+	for(let i = 0; i < 25; i++) {
+		let arr_s = s[i].split(",");
+		stack2D[i][0] = arr_s[0];
+		stack2D[i][1] = arr_s[1];
+		stack2D[i][2] = arr_s[2];
+		stack2D[i][3] = arr_s[3];
+		stack2D[i][4] = arr_s[4];
+		
+		stack2D[i][5] = arr_s[5];
+		stack2D[i][6] = arr_s[6];
+		stack2D[i][7] = arr_s[7];
+		stack2D[i][8] = arr_s[8];
+		stack2D[i][9] = arr_s[9];
+	}
+}
+
+function myclick(e) {
+	if(flagGameOver) {
+		return false;
+	}
+	
+	let backStatus = b.status;
+	let backI = b.i;
+	let backJ = b.j;
+	
+	let flagDown = false;
+	
+    if(e.code == "ArrowRight") {
+        b.j++;
+    }
+    else if(e.code == "ArrowLeft") {
+        b.j--;
+    }
+    else if(e.code == "ArrowUp") {
+        b.i--;
+    }
+    else if(e.code == "ArrowDown") {
+        b.i++;
+        flagDown = true;
+    }
+    else if(e.code == "Space") {
+    	rotate();
+    }
+    
+    let flagBlockError = false;
+    
+    try {
+    	setBlock2D();
+    } catch(e) {
+    	flagBlockError = true;
+    }
+    
+    setDisplay2D();
+    
+    let flagBlockStack = isBlockStack();
+    let flagBlockSide = isBlockSide();
+    let flagCrush = flagBlockError || flagBlockStack || flagBlockSide;
+    
+    if(flagCrush) {
+    	b.status = backStatus;
+        b.i = backI;
+        b.j = backJ; 
+    	setBlock2D();
+    	setDisplay2D();
+    }    
+    
+    if(flagDown && flagCrush) {
+    	moveBlock2DToStack2D();
+    	
+    	let cnt_max = getMax10();
+    	cleanStack(cnt_max);
+    	
+    	let span_obj = document.getElementById("my_remained");
+    	let aa = parseInt(span_obj.innerText);
+    	
+    	let remain = aa - cnt_max;
+    	span_obj.innerText = remain;
+    	if(remain <= 0) {
+    		flagGameOver = true;
+    		alert("Mission Complete");
+    	}
+    	
+    	if(stack2D[4][1] > 0 || stack2D[4][2] > 0 || stack2D[4][3] > 0 || stack2D[4][4] > 0 || stack2D[4][5] > 0 ||
+    	   stack2D[4][6] > 0 || stack2D[4][7] > 0 || stack2D[4][8] > 0 || stack2D[4][9] > 0 || stack2D[4][0] > 0) {
+    		flagGameOver = true;
+    		alert("Game Over");
+    	}
+    		
+    	
+    	b.type = parseInt(Math.random() * 7) + 1;
+    	b.i = 2;
+    	b.j = 4;
+    	setBlock2D();
+    	setDisplay2D();
+    	
+    	flagDown = false;
+    }
+    
+    my_render();
+}
+
+document.addEventListener("keydown", (e) => {
+	myclick(e);
+})
+
+function fn_init() {
+	fn_tick();
+}
+
+let aaa = 0;
+function fn_tick() {
+	myclick({'code':"ArrowDown"});
+	setTimeout(() => fn_tick(), 2000);
+}
+</script>
+</head>
+<body onload="fn_init()">
+	TETRIS 남은 블록 : <span id="my_remained">15</span>
+	<table border="1">
+	    <tr>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	    </tr>
+	    <tr>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	    </tr>
+	    <tr>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	    </tr>
+	    <tr>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	    </tr>
+	    <tr>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	    </tr>
+	    <tr>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	    </tr>
+	    <tr>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	    </tr>
+	    <tr>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	    </tr>
+	    <tr>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	    </tr>
+	    <tr>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	    </tr>
+	    <tr>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	    </tr>
+	    <tr>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	    </tr>
+	    <tr>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	    </tr>
+	    <tr>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	    </tr>
+	    <tr>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	    </tr>
+	    <tr>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	    </tr>
+	    <tr>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	    </tr>
+	    <tr>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	    </tr>
+	    <tr>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	    </tr>
+	    <tr>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	    </tr>
+	    <tr>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	    </tr>
+	    <tr>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	    </tr>
+	    <tr>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	    </tr>
+	    <tr>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	    </tr>
+	    <tr>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	        <td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td><td class="tile">&nbsp;</td>
+	    </tr>
+	</table>
+</body>
+</html>
